@@ -1,0 +1,18 @@
+This project implements a bootloader in the form of a shared library for Linux.
+The library automatically scans hard drives and removable media for bootable
+operating systems. The user can then request that they be booted into.
+
+At that point, the library will shut down the operating system, but instead of
+resetting the power on the computer, the other operating system is booted into.
+The Kexec system call is used to accomplish this.
+
+BIOS interrupts are used by operating systems early on to read from hard drives
+and do other things. These interrupts often stop working after the first time
+an operating system switches to 32-bit mode -- also known as protected mode
+(x86 computers start in 16-bit mode -- also known as real mode -- for backwards
+compatibility). For this reason, this library must boot operating systems via
+their 32-bit entry point.
+
+The downside of this is that every operating system must have its own support
+in the library. In its current state the library only supports booting Linux.
+There is code written to boot Windows, but I was unable to get it working.
